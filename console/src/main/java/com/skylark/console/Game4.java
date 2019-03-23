@@ -1,6 +1,7 @@
 package com.skylark.console;
 
-import com.skylark.model.Board;
+import com.skylark.core.Board;
+import com.skylark.core.Player;
 
 import java.util.Scanner;
 
@@ -37,12 +38,21 @@ public class Game4 {
                 System.out.println();
                 System.out.print("Enter Your Choice : ");
                 Board board;
+                Player player_one = null;
+                Player player_two = null;
                 switch (Integer.parseInt(scanner.nextLine())) {
                     case 1:
                         System.out.println("Choice 1");
+                        System.out.println("Enter Player 1 Name :");
+                        player_one = new Player(scanner.nextLine(), 'x', false);
+                        System.out.println("Enter Player 2 Name :");
+                        player_two = new Player(scanner.nextLine(), 'o', false);
                         break;
                     case 2:
                         System.out.println("Choice 2");
+                        System.out.println("Enter Player Name :");
+                        player_one = new Player(scanner.nextLine(), 'x', false);
+                        player_two = new Player("Computer", '0', true);
                         break;
                     case 3:
                         System.out.println("Thanks for playing Game4\n" + "Developed by Skylark");
@@ -53,26 +63,12 @@ public class Game4 {
 
                 board = new Board();
 
-                int result= 0;
+                int result = 0;
+
                 while (result == 0) {
-                    System.out.println("Where do you want to put your ball ?");
-                    for (int cols = 0; cols < Board.MAXCOL; cols++) {
-                        if (board.getHeight()[cols] < Board.MAXROW)
-                            System.out.print(" " + cols);
-                        else {
-                            System.out.print("  ");
-                        }
-                    }
-                    System.out.println();
-                    System.out.println(board);
-                    try {
-                        board.insert(Integer.parseInt(scanner.nextLine()), 'c');
-                    } catch (NumberFormatException nfe) {
-                        System.err.println("\nInvalid Input!!\n");
-                    }
-
+                    board.setBoard(player_one.play(board).getBoard());
+                    board.setBoard(player_two.play(board).getBoard());
                     result = board.checkResult();
-
                 }
 
             } catch (NumberFormatException nfe) {

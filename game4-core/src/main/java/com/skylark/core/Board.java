@@ -1,4 +1,4 @@
-package com.skylark.model;
+package com.skylark.core;
 
 import com.skylark.exception.InvalidBoardPositionException;
 
@@ -23,16 +23,12 @@ public class Board {
         return height;
     }
 
-    public void insert(int col, char sprite) {
-        try {
-            if (col < MAXCOL && height[col] < MAXROW) {
-                height[col] += 1;
-                setBoard(MAXROW - height[col], col, sprite);
-            } else
-                throw new InvalidBoardPositionException("Invalid Column Entered");
-        } catch (InvalidBoardPositionException excpetion) {
-            System.err.println(excpetion.getMessage());
-        }
+    public void insert(int col, char sprite) throws InvalidBoardPositionException {
+        if (col < MAXCOL && height[col] < MAXROW) {
+            height[col] += 1;
+            setBoard(MAXROW - height[col], col, sprite);
+        } else
+            throw new InvalidBoardPositionException("Invalid Column Entered");
     }
 
     public char[][] getBoard() {
