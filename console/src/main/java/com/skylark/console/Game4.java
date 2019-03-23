@@ -40,41 +40,39 @@ public class Game4 {
                 switch (Integer.parseInt(scanner.nextLine())) {
                     case 1:
                         System.out.println("Choice 1");
-                        // doublePlayer();
-                        board = new Board();
-                        System.out.println(board);
                         break;
                     case 2:
                         System.out.println("Choice 2");
-                        // singlePlayer();
-                        board = new Board();
-                        int result= 0;
-                        while (result == 0) {
-                            System.out.println("Where do you want to put your ball ?");
-                            for (int cols = 0; cols < Board.MAXCOL; cols++) {
-                                if (board.getHeight()[cols] < Board.MAXROW)
-                                    System.out.print(" " + cols);
-                                else {
-                                    System.out.print("  ");
-                                }
-                            }
-                            System.out.println();
-                            System.out.println(board);
-                            try {
-                                board.insert(Integer.parseInt(scanner.nextLine()), 'c');
-                            } catch (NumberFormatException nfe) {
-                                System.err.println("\nInvalid Input!!\n");
-                            }
-
-                            result = board.checkResult();
-
-                        }
                         break;
                     case 3:
                         System.out.println("Thanks for playing Game4\n" + "Developed by Skylark");
                         System.exit(0);
                     default:
                         System.err.println("Invalid Choice, Try again!!!\n");
+                }
+
+                board = new Board();
+
+                int result= 0;
+                while (result == 0) {
+                    System.out.println("Where do you want to put your ball ?");
+                    for (int cols = 0; cols < Board.MAXCOL; cols++) {
+                        if (board.getHeight()[cols] < Board.MAXROW)
+                            System.out.print(" " + cols);
+                        else {
+                            System.out.print("  ");
+                        }
+                    }
+                    System.out.println();
+                    System.out.println(board);
+                    try {
+                        board.insert(Integer.parseInt(scanner.nextLine()), 'c');
+                    } catch (NumberFormatException nfe) {
+                        System.err.println("\nInvalid Input!!\n");
+                    }
+
+                    result = board.checkResult();
+
                 }
 
             } catch (NumberFormatException nfe) {
