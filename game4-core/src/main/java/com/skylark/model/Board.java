@@ -1,12 +1,12 @@
 package com.skylark.model;
 
-import javax.sound.midi.Soundbank;
+import com.skylark.exception.InvalidBoardPositionException;
+
 
 public class Board {
-    private final int MAXROW = 7;
-    private final int MAXCOL = 6;
+    public static final int MAXROW = 7;
+    public static final int MAXCOL = 6;
     private char boardMatrix[][];
-
     private int[] height = new int[MAXCOL];
 
     public Board() {
@@ -19,9 +19,19 @@ public class Board {
         }*/
     }
 
+    public int[] getHeight() {
+        return height;
+    }
+
     public void insert(int col, char sprite) {
-        if (col < MAXCOL) {
-            setBoard(height[col], col, sprite);
+        try {
+            if (col < MAXCOL && height[col] < MAXROW) {
+                height[col] += 1;
+                setBoard(MAXROW - height[col], col, sprite);
+            } else
+                throw new InvalidBoardPositionException("Invalid Column Entered");
+        } catch (InvalidBoardPositionException excpetion) {
+            System.err.println(excpetion.getMessage());
         }
     }
 
@@ -38,16 +48,15 @@ public class Board {
         return boardMatrix[row][column];
     }
 
-    public void setBoard(int row, int column, char value) {
+    public void setBoard(int row, int column, char value) throws InvalidBoardPositionException {
         if (row < MAXROW && column < MAXCOL) {
             boardMatrix[row][column] = value;
-        }else throw InvalidBoardPositionException("Cant fit the fall there");
+        } else throw new InvalidBoardPositionException("Cant fit the ball there");
     }
 
 
     @Override
     public String toString() {
-    	insert(10, 'x');
         String board = "";
 
         for (int row = 0; row < MAXROW; row++) {
@@ -62,5 +71,28 @@ public class Board {
             board += "|\n\r";
         }
         return board;
+    }
+
+    public int checkWinner() {
+        return 0;
+    }
+
+    private int checkDraw() {
+        int boxFull = 0;
+        for (int col = 0; col < MAXCOL; col++) {
+            boxFull += height[col];
+        }
+        if (boxFull == MAXCOL * MAXROW) {
+            System.out.println("================Game Draw!!================");
+            return 1;
+        }
+        return 0;
+    }
+
+    public int checkResult() {
+        int result = 0;
+        result += checkDraw();
+        result += checkWinner();
+        return result;
     }
 }
